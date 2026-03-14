@@ -2,6 +2,7 @@
 
 > A multi-agent AI system that monitors research publications and startup activity simultaneously to surface emerging technologies before they hit mainstream news.
 
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-blue?style=for-the-badge)](https://borneo-2.vercel.app/)
 ---
 
 ## 📌 Project Description
