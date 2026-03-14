@@ -10,7 +10,6 @@ Endpoints:
 import sys
 import os
 
-# Allow imports from project root
 sys.path.insert(0, os.path.join(os.path.dirname(__file__), ".."))
 
 from flask import Flask, request, jsonify
@@ -115,4 +114,4 @@ def fetch_news():
 
 
 if __name__ == "__main__":
-    app.run(debug=True, port=5000)
+    app.run(host="0.0.0.0", port=8080)
