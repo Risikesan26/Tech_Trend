@@ -1,0 +1,1464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Tech Trend Intelligence</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet"/>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+
+:root{
+  --bg: #0c0c0e;
+  --surface: #141416;
+  --surface2: #1c1c1f;
+  --surface3: #232327;
+  --border: rgba(255,255,255,0.07);
+  --border2: rgba(255,255,255,0.12);
+  --text: #f0efec;
+  --text2: #9998a0;
+  --text3: #5a5963;
+  --accent: #c8f135;
+  --accent-dim: rgba(200,241,53,0.12);
+  --blue: #5b9cf6;
+  --blue-dim: rgba(91,156,246,0.1);
+  --amber: #f5a623;
+  --amber-dim: rgba(245,166,35,0.1);
+  --green: #4ade80;
+  --green-dim: rgba(74,222,128,0.1);
+  --red: #f87171;
+  --red-dim: rgba(248,113,113,0.1);
+  --serif: 'DM Serif Display', Georgia, serif;
+  --sans: 'DM Sans', system-ui, sans-serif;
+  --mono: 'DM Mono', monospace;
+  --radius: 8px;
+}
+
+html, body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  line-height: 1.6;
+  min-height: 100vh;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar{width:4px;height:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--surface3);border-radius:4px}
+
+/* ── Header ── */
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(12,12,14,0.92);
+  backdrop-filter: blur(16px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 28px;
+}
+
+.header-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 0 12px;
+}
+
+.logo {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.logo-name {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--text);
+  letter-spacing: -0.3px;
+}
+
+.logo-dot {
+  width: 6px;
+  height: 6px;
+  background: var(--accent);
+  border-radius: 50%;
+  margin-bottom: 2px;
+  flex-shrink: 0;
+  align-self: center;
+  animation: blink 2.4s ease-in-out infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.4; transform: scale(0.85); }
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-meta {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+}
+
+.meta-pill {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  padding: 4px 12px;
+}
+
+.meta-label {
+  font-size: 11px;
+  color: var(--text3);
+  font-weight: 500;
+}
+
+.meta-val {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text2);
+}
+
+.status-live {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--accent);
+}
+
+.live-ring {
+  width: 7px;
+  height: 7px;
+  position: relative;
+}
+
+.live-ring::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: var(--accent);
+  animation: ping 2s ease-out infinite;
+}
+
+.live-ring::after {
+  content: '';
+  position: absolute;
+  inset: 1px;
+  border-radius: 50%;
+  background: var(--accent);
+}
+
+@keyframes ping {
+  0% { transform: scale(1); opacity: 0.7; }
+  100% { transform: scale(2.4); opacity: 0; }
+}
+
+/* ── Nav ── */
+.nav {
+  display: flex;
+  gap: 2px;
+  padding-bottom: 1px;
+  overflow-x: auto;
+}
+
+.nav-tab {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--text3);
+  padding: 8px 14px;
+  cursor: pointer;
+  background: none;
+  border: none;
+  border-radius: var(--radius) var(--radius) 0 0;
+  transition: color 0.15s, background 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.nav-tab:hover { color: var(--text2); background: var(--surface2); }
+.nav-tab.active { color: var(--accent); background: var(--surface); }
+
+/* ── Layout ── */
+.layout {
+  display: grid;
+  grid-template-columns: 1fr 260px;
+  gap: 20px;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 28px 28px;
+  align-items: start;
+}
+
+.layout.full { grid-template-columns: 1fr; }
+
+/* ── Pages ── */
+.page { display: none; }
+.page.active { display: contents; }
+
+/* ── Stat cards ── */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 20px;
+  transition: border-color 0.2s;
+}
+
+.stat-card:hover { border-color: var(--border2); }
+
+.stat-label {
+  font-size: 11px;
+  font-weight: 500;
+  color: var(--text3);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  margin-bottom: 8px;
+}
+
+.stat-num {
+  font-family: var(--serif);
+  font-size: 32px;
+  line-height: 1;
+  color: var(--text);
+  margin-bottom: 4px;
+}
+
+.stat-sub {
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* ── Agent cards ── */
+.agents-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.agent-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px 18px;
+  position: relative;
+  overflow: hidden;
+  transition: border-color 0.2s;
+}
+
+.agent-card:hover { border-color: var(--border2); }
+
+.agent-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  opacity: 0.8;
+}
+
+.ac-blue::before { background: var(--blue); }
+.ac-green::before { background: var(--green); }
+.ac-amber::before { background: var(--amber); }
+
+.agent-name {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 4px;
+  letter-spacing: 0.01em;
+}
+
+.agent-desc {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.55;
+  margin-bottom: 12px;
+}
+
+.agent-foot {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.agent-log {
+  font-family: var(--mono);
+  font-size: 10px;
+  color: var(--text3);
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.badge {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 100px;
+  flex-shrink: 0;
+}
+
+.badge-idle { background: var(--surface3); color: var(--text3); }
+.badge-running { background: var(--blue-dim); color: var(--blue); }
+.badge-done { background: var(--green-dim); color: var(--green); }
+.badge-error { background: var(--red-dim); color: var(--red); }
+
+.prog-track {
+  height: 2px;
+  background: var(--surface3);
+  margin-top: 12px;
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.prog-fill {
+  height: 100%;
+  transition: width 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 0%;
+  border-radius: 2px;
+}
+
+.ac-blue .prog-fill { background: var(--blue); }
+.ac-green .prog-fill { background: var(--green); }
+.ac-amber .prog-fill { background: var(--amber); }
+
+/* ── Query card ── */
+.query-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+.card-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+.input-row {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.q-input {
+  flex: 1;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 14px;
+  padding: 10px 14px;
+  outline: none;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.q-input:focus {
+  border-color: var(--accent);
+  background: var(--surface3);
+}
+
+.q-input::placeholder { color: var(--text3); }
+
+.btn {
+  font-family: var(--sans);
+  font-size: 13px;
+  font-weight: 600;
+  padding: 10px 20px;
+  border: none;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  letter-spacing: 0.01em;
+}
+
+.btn-accent {
+  background: var(--accent);
+  color: #0c0c0e;
+}
+
+.btn-accent:hover { background: #d4f450; }
+.btn-accent:disabled { background: var(--surface3); color: var(--text3); cursor: not-allowed; }
+
+.btn-ghost {
+  background: var(--surface2);
+  color: var(--text2);
+  border: 1px solid var(--border);
+}
+
+.btn-ghost:hover { border-color: var(--border2); color: var(--text); }
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.chip {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 4px 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 100px;
+  color: var(--text3);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.chip:hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  background: var(--accent-dim);
+}
+
+/* ── Results ── */
+.results-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+
+.result-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.result-title {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+/* ── Signal items ── */
+.signal-item {
+  padding: 10px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.signal-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.signal-title {
+  font-size: 13px;
+  color: var(--text);
+  line-height: 1.45;
+  margin-bottom: 6px;
+  font-weight: 400;
+}
+
+.signal-meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.signal-source {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--blue);
+}
+
+.signal-source.green { color: var(--green); }
+
+.signal-date {
+  font-size: 10px;
+  color: var(--text3);
+}
+
+.tag {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 1px 7px;
+  border-radius: 100px;
+}
+
+.tag-paper { background: var(--blue-dim); color: var(--blue); }
+.tag-startup { background: var(--green-dim); color: var(--green); }
+.tag-news { background: var(--amber-dim); color: var(--amber); }
+
+/* ── Trend list ── */
+.trend-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.trend-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.trend-item:first-child { padding-top: 0; }
+.trend-item:last-child { border-bottom: none; padding-bottom: 0; }
+
+.trend-rank {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  width: 18px;
+  flex-shrink: 0;
+  padding-top: 2px;
+}
+
+.trend-body { flex: 1; min-width: 0; }
+
+.trend-name {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 3px;
+}
+
+.trend-detail {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.5;
+}
+
+.trend-score-wrap { flex-shrink: 0; text-align: right; }
+
+.trend-score {
+  font-family: var(--serif);
+  font-size: 24px;
+  line-height: 1;
+  margin-bottom: 4px;
+}
+
+.trend-bar {
+  width: 48px;
+  height: 2px;
+  background: var(--surface3);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-left: auto;
+}
+
+.trend-bar-fill { height: 100%; border-radius: 2px; }
+
+/* ── Sidebar ── */
+.sidebar { display: flex; flex-direction: column; gap: 12px; }
+
+.sidebar-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 16px;
+}
+
+.sidebar-label {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+}
+
+.agent-spec {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.spec-item-name {
+  font-size: 12px;
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.spec-item-desc {
+  font-size: 11px;
+  color: var(--text3);
+  line-height: 1.5;
+}
+
+/* ── Report ── */
+.report-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 28px 32px;
+}
+
+.report-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 24px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+}
+
+.report-topic {
+  font-family: var(--serif);
+  font-size: 26px;
+  color: var(--text);
+  line-height: 1.2;
+}
+
+.report-badge {
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin-bottom: 8px;
+}
+
+.report-dateline {
+  font-size: 11px;
+  color: var(--text3);
+  text-align: right;
+  font-style: italic;
+}
+
+.report-body { font-size: 14px; line-height: 1.8; color: var(--text2); }
+
+.report-body h2 {
+  font-family: var(--sans);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--text3);
+  margin: 28px 0 10px;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+}
+
+.report-body h3 {
+  font-family: var(--serif);
+  font-size: 17px;
+  color: var(--text);
+  margin: 16px 0 6px;
+}
+
+.report-body ul { padding-left: 18px; margin: 6px 0; }
+.report-body li { margin: 5px 0; font-size: 13px; color: var(--text2); }
+.report-body strong { color: var(--text); font-weight: 600; }
+
+/* ── News feed ── */
+.news-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  overflow: hidden;
+}
+
+.news-feed-item {
+  display: grid;
+  grid-template-columns: 32px 1fr;
+  gap: 12px;
+  padding: 16px 18px;
+  border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+
+.news-feed-item:last-child { border-bottom: none; }
+.news-feed-item:hover { background: var(--surface2); }
+
+.nfi-num {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+  padding-top: 2px;
+}
+
+.nfi-title {
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text);
+  margin-bottom: 5px;
+  line-height: 1.45;
+}
+
+.nfi-summary {
+  font-size: 12px;
+  color: var(--text3);
+  line-height: 1.5;
+  margin-bottom: 6px;
+}
+
+.nfi-byline { display: flex; align-items: center; gap: 10px; }
+.nfi-source { font-size: 10px; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--blue); }
+.nfi-date { font-size: 10px; color: var(--text3); }
+
+/* ── Settings ── */
+.settings-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  max-width: 440px;
+}
+
+.field-label {
+  display: block;
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text3);
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+}
+
+.field-note {
+  font-size: 11px;
+  color: var(--text3);
+  margin-top: 5px;
+  font-style: italic;
+}
+
+.divider {
+  height: 1px;
+  background: var(--border);
+  margin: 18px 0;
+}
+
+.range-row { display: flex; align-items: center; gap: 12px; }
+.range-val { font-family: var(--mono); font-size: 12px; color: var(--text); min-width: 20px; }
+
+input[type=range] {
+  flex: 1;
+  accent-color: var(--accent);
+  background: transparent;
+}
+
+/* ── Agents page ── */
+.agent-detail {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.agent-detail::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+}
+
+.ad-blue::before { background: var(--blue); }
+.ad-green::before { background: var(--green); }
+.ad-amber::before { background: var(--amber); }
+
+.agent-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.agent-detail-name {
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+
+.ad-blue .agent-detail-name { color: var(--blue); }
+.ad-green .agent-detail-name { color: var(--green); }
+.ad-amber .agent-detail-name { color: var(--amber); }
+
+.agent-detail-desc {
+  font-size: 13px;
+  color: var(--text2);
+  line-height: 1.65;
+  margin-bottom: 10px;
+}
+
+.agent-detail-log {
+  font-family: var(--mono);
+  font-size: 11px;
+  color: var(--text3);
+}
+
+/* ── Empty state ── */
+.empty {
+  text-align: center;
+  padding: 60px 24px;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.empty-headline {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--text2);
+  margin-bottom: 8px;
+}
+
+.empty-sub {
+  font-size: 13px;
+  color: var(--text3);
+}
+
+/* ── Loading ── */
+.loading-wrap { margin-bottom: 20px; }
+
+.loading-track {
+  height: 2px;
+  background: var(--surface3);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.loading-fill {
+  height: 100%;
+  background: var(--accent);
+  animation: sweep 1.4s ease-in-out infinite;
+  width: 35%;
+  border-radius: 2px;
+}
+
+@keyframes sweep {
+  0% { transform: translateX(-100%); }
+  100% { transform: translateX(350%); }
+}
+
+.loading-text {
+  text-align: center;
+  font-size: 13px;
+  color: var(--text3);
+  font-style: italic;
+  padding: 24px 0;
+}
+
+/* ── Toast ── */
+.toast {
+  position: fixed;
+  bottom: 24px;
+  right: 24px;
+  background: var(--surface2);
+  border: 1px solid var(--border2);
+  border-left: 2px solid var(--accent);
+  color: var(--text);
+  padding: 10px 16px;
+  font-size: 13px;
+  border-radius: var(--radius);
+  z-index: 500;
+  opacity: 0;
+  transition: opacity 0.2s, transform 0.2s;
+  transform: translateY(8px);
+  pointer-events: none;
+  max-width: 280px;
+}
+
+.toast.show {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* ── Code inline ── */
+code {
+  font-family: var(--mono);
+  font-size: 11px;
+  background: var(--surface3);
+  color: var(--accent);
+  padding: 1px 6px;
+  border-radius: 4px;
+}
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .layout { grid-template-columns: 1fr; padding: 16px; }
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+  .agents-grid { grid-template-columns: 1fr; }
+  .results-grid { grid-template-columns: 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<header class="header">
+  <div class="header-top">
+    <div class="logo">
+      <span class="logo-name">Trend Intel</span>
+      <span class="logo-dot"></span>
+    </div>
+    <div class="header-right">
+      <div class="header-meta">
+        <div class="meta-pill">
+          <span class="meta-label">Agents</span>
+          <span class="meta-val" id="api-status" style="color:var(--text3)">checking</span>
+        </div>
+        <div class="meta-pill">
+          <span class="meta-label">UTC</span>
+          <span class="meta-val" id="clock">—</span>
+        </div>
+      </div>
+      <div class="status-live">
+        <span class="live-ring"></span>
+        Live
+      </div>
+    </div>
+  </div>
+  <nav class="nav">
+    <button class="nav-tab active" onclick="nav('overview',this)">Overview</button>
+    <button class="nav-tab" onclick="nav('analyze',this)">Analyze</button>
+    <button class="nav-tab" onclick="nav('news',this)">News Feed</button>
+    <button class="nav-tab" onclick="nav('agents',this)">Agents</button>
+    <button class="nav-tab" onclick="nav('report',this)">Report</button>
+    <button class="nav-tab" onclick="nav('settings',this)">Settings</button>
+  </nav>
+</header>
+
+<!-- OVERVIEW -->
+<div id="page-overview" class="page active">
+<div class="layout">
+  <div>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-label">Articles Fetched</div>
+        <div class="stat-num" id="s-news">—</div>
+        <div class="stat-sub">last run</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Trends Found</div>
+        <div class="stat-num" id="s-trends">—</div>
+        <div class="stat-sub">synthesised signals</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Active Agents</div>
+        <div class="stat-num" id="s-agents">3</div>
+        <div class="stat-sub">paper · startup · synth</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-label">Last Run</div>
+        <div class="stat-num" style="font-size:20px;padding-top:6px" id="s-lastrun">—</div>
+        <div class="stat-sub">UTC</div>
+      </div>
+    </div>
+
+    <div class="agents-grid">
+      <div class="agent-card ac-blue">
+        <div class="agent-name">Paper Reader</div>
+        <div class="agent-desc">Searches Google News for research papers and academic breakthroughs.</div>
+        <div class="agent-foot">
+          <span class="agent-log" id="l-paper">awaiting query</span>
+          <span class="badge badge-idle" id="b-paper">Idle</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="p-paper"></div></div>
+      </div>
+      <div class="agent-card ac-green">
+        <div class="agent-name">Startup Intel</div>
+        <div class="agent-desc">Scans startup funding rounds and commercial signals.</div>
+        <div class="agent-foot">
+          <span class="agent-log" id="l-startup">awaiting query</span>
+          <span class="badge badge-idle" id="b-startup">Idle</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="p-startup"></div></div>
+      </div>
+      <div class="agent-card ac-amber">
+        <div class="agent-name">Trend Synthesizer</div>
+        <div class="agent-desc">Aggregates signals and computes momentum scores.</div>
+        <div class="agent-foot">
+          <span class="agent-log" id="l-synth">waiting for agents</span>
+          <span class="badge badge-idle" id="b-synth">Idle</span>
+        </div>
+        <div class="prog-track"><div class="prog-fill" id="p-synth"></div></div>
+      </div>
+    </div>
+
+    <div class="query-card">
+      <div class="card-label">Run Intelligence Swarm</div>
+      <div class="input-row">
+        <input class="q-input" id="ov-q" placeholder="Enter a topic — e.g. large language models, CRISPR, fusion energy"/>
+        <button class="btn btn-accent" id="ov-btn" onclick="runSwarm('ov-q','ov-btn','ov-out')">Analyse</button>
+      </div>
+      <div class="chips">
+        <span class="chip" onclick="setQ('ov-q',this)">AI Agents</span>
+        <span class="chip" onclick="setQ('ov-q',this)">Quantum Computing</span>
+        <span class="chip" onclick="setQ('ov-q',this)">Biotech</span>
+        <span class="chip" onclick="setQ('ov-q',this)">Climate Tech</span>
+        <span class="chip" onclick="setQ('ov-q',this)">Robotics</span>
+        <span class="chip" onclick="setQ('ov-q',this)">Space Tech</span>
+      </div>
+    </div>
+
+    <div id="ov-out"></div>
+  </div>
+
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-label">About</div>
+      <p style="font-size:12px;color:var(--text3);line-height:1.7">Three specialised AI agents run in parallel — scanning research publications and startup activity, then synthesising findings into a ranked intelligence report.</p>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-label">Architecture</div>
+      <div class="agent-spec">
+        <div>
+          <div class="spec-item-name" style="color:var(--blue)">Paper Reader</div>
+          <div class="spec-item-desc">arXiv · academic publications · research signals</div>
+        </div>
+        <div>
+          <div class="spec-item-name" style="color:var(--green)">Startup Intel</div>
+          <div class="spec-item-desc">funding rounds · YC batches · VC activity</div>
+        </div>
+        <div>
+          <div class="spec-item-name" style="color:var(--amber)">Trend Synthesizer</div>
+          <div class="spec-item-desc">signal clustering · momentum scoring · report</div>
+        </div>
+      </div>
+    </div>
+    <div class="sidebar-card">
+      <div class="sidebar-label">Data Sources</div>
+      <p style="font-size:12px;color:var(--text3);line-height:1.7">Powered by live web search grounding via Google News.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- ANALYZE -->
+<div id="page-analyze" class="page">
+<div class="layout">
+  <div>
+    <div class="query-card">
+      <div class="card-label">Deep Topic Analysis</div>
+      <div class="input-row">
+        <input class="q-input" id="an-q" placeholder="Enter a technology topic for multi-agent deep analysis..."/>
+        <button class="btn btn-accent" id="an-btn" onclick="runSwarm('an-q','an-btn','an-out')">Analyse</button>
+      </div>
+      <div class="chips">
+        <span class="chip" onclick="setQ('an-q',this)">Neuromorphic Chips</span>
+        <span class="chip" onclick="setQ('an-q',this)">Synthetic Biology</span>
+        <span class="chip" onclick="setQ('an-q',this)">Edge AI</span>
+        <span class="chip" onclick="setQ('an-q',this)">Nuclear Fusion</span>
+        <span class="chip" onclick="setQ('an-q',this)">Autonomous Vehicles</span>
+        <span class="chip" onclick="setQ('an-q',this)">Semiconductor</span>
+      </div>
+    </div>
+    <div id="an-out"></div>
+  </div>
+  <div class="sidebar">
+    <div class="sidebar-card">
+      <div class="sidebar-label">How it Works</div>
+      <p style="font-size:12px;color:var(--text3);line-height:1.7">Paper Reader and Startup Intel agents run simultaneously. Once both complete, Trend Synthesizer produces a scored report.</p>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- NEWS FEED -->
+<div id="page-news" class="page">
+<div class="layout full">
+  <div style="max-width:780px">
+    <div class="query-card" style="margin-bottom:20px">
+      <div class="card-label">Live News Feed</div>
+      <div class="input-row" style="margin-bottom:12px">
+        <input class="q-input" id="nw-q" placeholder="Search a technology topic..."/>
+        <button class="btn btn-accent" id="nw-btn" onclick="fetchNews()">Fetch</button>
+      </div>
+      <div class="chips">
+        <span class="chip" onclick="setQFetch('nw-q',this)">AI breakthroughs</span>
+        <span class="chip" onclick="setQFetch('nw-q',this)">Tech startup funding</span>
+        <span class="chip" onclick="setQFetch('nw-q',this)">Quantum computing</span>
+        <span class="chip" onclick="setQFetch('nw-q',this)">Semiconductor industry</span>
+        <span class="chip" onclick="setQFetch('nw-q',this)">Robotics launches</span>
+      </div>
+    </div>
+    <div id="nw-out">
+      <div class="empty">
+        <div class="empty-headline">No results yet</div>
+        <div class="empty-sub">Enter a topic above to fetch live news</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- AGENTS -->
+<div id="page-agents" class="page">
+<div class="layout full">
+  <div style="max-width:720px;display:flex;flex-direction:column;gap:12px">
+
+    <div class="agent-detail ad-blue">
+      <div class="agent-detail-header">
+        <div class="agent-detail-name">Paper Reader Agent</div>
+        <span class="badge badge-idle" id="ab-paper">Idle</span>
+      </div>
+      <p class="agent-detail-desc">Uses <code>web_search</code> grounding to scan Google News for research publications, arXiv preprints, and academic technology news. Extracts key research signals and emerging directions.</p>
+      <div class="agent-detail-log" id="al-paper">idle — no recent run</div>
+    </div>
+
+    <div class="agent-detail ad-green">
+      <div class="agent-detail-header">
+        <div class="agent-detail-name">Startup Intel Agent</div>
+        <span class="badge badge-idle" id="ab-startup">Idle</span>
+      </div>
+      <p class="agent-detail-desc">Uses <code>web_search</code> grounding to monitor startup launches, funding rounds, Y Combinator batches, and venture capital activity in emerging technology sectors.</p>
+      <div class="agent-detail-log" id="al-startup">idle — no recent run</div>
+    </div>
+
+    <div class="agent-detail ad-amber">
+      <div class="agent-detail-header">
+        <div class="agent-detail-name">Trend Synthesizer Agent</div>
+        <span class="badge badge-idle" id="ab-synth">Idle</span>
+      </div>
+      <p class="agent-detail-desc">Receives structured outputs from both agents. Clusters related signals, computes momentum scores from 0–10 based on signal density and recency, and generates a structured intelligence report.</p>
+      <div class="agent-detail-log" id="al-synth">idle — waiting for upstream agents</div>
+    </div>
+
+  </div>
+</div>
+</div>
+
+<!-- REPORT -->
+<div id="page-report" class="page">
+<div class="layout full">
+  <div style="max-width:720px">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:16px">
+      <span style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.07em;text-transform:uppercase">Intelligence Report</span>
+      <button class="btn btn-ghost" id="dl-btn" onclick="downloadReport()" style="display:none;font-size:12px;padding:7px 14px">Download .txt</button>
+    </div>
+    <div id="report-out">
+      <div class="empty">
+        <div class="empty-headline">No report generated yet</div>
+        <div class="empty-sub">Run a swarm analysis from Overview or Analyze</div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- SETTINGS -->
+<div id="page-settings" class="page">
+<div class="layout full">
+  <div style="max-width:440px">
+    <div style="font-size:11px;font-weight:600;color:var(--text3);letter-spacing:0.07em;text-transform:uppercase;margin-bottom:16px">Configuration</div>
+    <div class="settings-card">
+      <label class="field-label">Flask API Base URL</label>
+      <input class="q-input" id="cfg-url" value="http://localhost:5000" style="width:100%;margin-bottom:4px"/>
+      <div class="field-note">The URL where app/api.py is running</div>
+      <div class="divider"></div>
+      <label class="field-label">News results per agent</label>
+      <div class="range-row" style="margin-bottom:4px">
+        <input type="range" id="cfg-nc" min="3" max="10" value="5"/>
+        <span class="range-val" id="cfg-nc-val">5</span>
+      </div>
+      <div class="field-note" style="margin-bottom:18px">articles fetched per agent per run</div>
+      <label class="field-label">Trend count in report</label>
+      <div class="range-row" style="margin-bottom:4px">
+        <input type="range" id="cfg-tc" min="3" max="10" value="5"/>
+        <span class="range-val" id="cfg-tc-val">5</span>
+      </div>
+      <div class="field-note" style="margin-bottom:20px">top N trends shown in report</div>
+      <button class="btn btn-accent" onclick="showToast('Settings saved')">Save Settings</button>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+const cfg={
+  url:()=>document.getElementById('cfg-url').value.replace(/\/$/,''),
+  nc:()=>parseInt(document.getElementById('cfg-nc').value),
+  tc:()=>parseInt(document.getElementById('cfg-tc').value),
+};
+document.getElementById('cfg-nc').oninput=function(){document.getElementById('cfg-nc-val').textContent=this.value};
+document.getElementById('cfg-tc').oninput=function(){document.getElementById('cfg-tc-val').textContent=this.value};
+
+setInterval(()=>{
+  document.getElementById('clock').textContent=new Date().toUTCString().slice(17,22);
+},1000);
+
+function nav(p,el){
+  document.querySelectorAll('.page').forEach(x=>x.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(x=>x.classList.remove('active'));
+  document.getElementById('page-'+p).classList.add('active');
+  el.classList.add('active');
+}
+
+function setQ(id,el){document.getElementById(id).value=el.textContent;}
+function setQFetch(id,el){document.getElementById(id).value=el.textContent;fetchNews();}
+
+function showToast(m){
+  const t=document.getElementById('toast');
+  t.textContent=m;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2800);
+}
+
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+
+function scoreColor(s){
+  return s>=8.5?'var(--green)':s>=7?'var(--blue)':s>=5.5?'var(--amber)':'var(--red)';
+}
+
+function noItems(){return '<p style="font-size:12px;color:var(--text3);padding:8px 0;font-style:italic">No items extracted.</p>';}
+
+const BadgeCls={idle:'badge-idle',running:'badge-running',done:'badge-done',error:'badge-error'};
+
+function setBadge(id,state,label){
+  ['b-','ab-'].forEach(pre=>{
+    const el=document.getElementById(pre+id);
+    if(!el)return;
+    el.className='badge '+BadgeCls[state];
+    el.textContent=label||(state.charAt(0).toUpperCase()+state.slice(1));
+  });
+}
+
+function setLog(id,text){
+  ['l-','al-'].forEach(pre=>{const el=document.getElementById(pre+id);if(el)el.textContent=text;});
+}
+
+function setProg(id,pct){
+  const el=document.getElementById('p-'+id);
+  if(el)el.style.width=pct+'%';
+}
+
+function resetAgents(){
+  ['paper','startup','synth'].forEach(id=>{
+    setBadge(id,'idle');
+    setLog(id,id==='synth'?'waiting for agents':'awaiting query');
+    setProg(id,0);
+  });
+}
+
+async function checkHealth(){
+  try{
+    const r=await fetch(cfg.url()+'/api/health');
+    const d=await r.json();
+    const el=document.getElementById('api-status');
+    if(d.status==='ok'){el.textContent='3 online';el.style.color='var(--green)';}
+    else{el.textContent='warning';el.style.color='var(--amber)';}
+  }catch(e){
+    const el=document.getElementById('api-status');
+    el.textContent='offline';el.style.color='var(--red)';
+  }
+}
+checkHealth();
+
+let lastReport='';
+
+async function runSwarm(inputId,btnId,outputId){
+  const topic=document.getElementById(inputId).value.trim();
+  if(!topic){showToast('Please enter a topic');return;}
+  const btn=document.getElementById(btnId);
+  const out=document.getElementById(outputId);
+  btn.disabled=true;btn.textContent='Running…';
+  resetAgents();
+
+  out.innerHTML=`
+    <div class="loading-wrap">
+      <div class="loading-track"><div class="loading-fill"></div></div>
+      <div class="loading-text">Deploying agents — searching for <em>${esc(topic)}</em>…</div>
+    </div>`;
+
+  setBadge('paper','running','Running');setLog('paper','searching research news…');setProg('paper',40);
+  setBadge('startup','running','Running');setLog('startup','scanning startup signals…');setProg('startup',40);
+
+  const t0=Date.now();
+  try{
+    const res=await fetch(cfg.url()+'/api/swarm',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({topic,max_results:cfg.nc(),trend_count:cfg.tc()})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'HTTP '+res.status);}
+    const data=await res.json();
+
+    setBadge('paper','done','Done');setLog('paper',`${data.paper_result.items.length} signals found`);setProg('paper',100);
+    setBadge('startup','done','Done');setLog('startup',`${data.startup_result.items.length} signals found`);setProg('startup',100);
+    setBadge('synth','done','Done');setLog('synth',`${data.trends.length} trends synthesised`);setProg('synth',100);
+
+    document.getElementById('s-news').textContent=data.paper_result.items.length+data.startup_result.items.length;
+    document.getElementById('s-trends').textContent=data.trends.length;
+    document.getElementById('s-lastrun').textContent=new Date().toUTCString().slice(17,22);
+
+    renderResults(out,data);
+    renderReport(data);
+    document.getElementById('dl-btn').style.display='';
+    lastReport=data.report;
+
+    showToast(`Done in ${((Date.now()-t0)/1000).toFixed(1)}s — ${data.trends.length} trends found`);
+  }catch(e){
+    setBadge('paper','error','Error');
+    setBadge('startup','error','Error');
+    setBadge('synth','error','Error');
+    out.innerHTML=`<div class="empty"><div class="empty-headline">Request failed</div><div class="empty-sub">${esc(e.message)}</div></div>`;
+    showToast('Error: '+e.message);
+  }
+  btn.disabled=false;btn.textContent='Analyse';
+}
+
+function renderResults(el,data){
+  el.innerHTML=`
+    <div class="results-grid">
+      <div class="result-card">
+        <div class="result-title">Research signals</div>
+        ${data.paper_result.items.slice(0,cfg.nc()).map(item=>`
+          <div class="signal-item">
+            <div class="signal-title">${esc(item.title)}</div>
+            <div class="signal-meta">
+              <span class="signal-source">${esc(item.source||'Research')}</span>
+              <span class="signal-date">${esc(item.date||'recent')}</span>
+              <span class="tag tag-paper">Paper</span>
+            </div>
+          </div>`).join('')||noItems()}
+      </div>
+      <div class="result-card">
+        <div class="result-title">Startup signals</div>
+        ${data.startup_result.items.slice(0,cfg.nc()).map(item=>`
+          <div class="signal-item">
+            <div class="signal-title">${esc(item.title)}</div>
+            <div class="signal-meta">
+              <span class="signal-source green">${esc(item.source||'Startup')}</span>
+              <span class="signal-date">${esc(item.date||'recent')}</span>
+              <span class="tag tag-startup">Startup</span>
+            </div>
+          </div>`).join('')||noItems()}
+      </div>
+    </div>
+    ${data.trends.length?`
+    <div class="trend-card">
+      <div class="result-title" style="margin-bottom:0;padding-bottom:0;border:none;margin-bottom:4px">Synthesised Trends — ${esc(data.topic)}</div>
+      <div style="height:1px;background:var(--border);margin-bottom:12px"></div>
+      ${data.trends.map((t,i)=>`
+        <div class="trend-item">
+          <div class="trend-rank">${String(i+1).padStart(2,'0')}</div>
+          <div class="trend-body">
+            <div class="trend-name">${esc(t.name)}</div>
+            <div class="trend-detail">${esc(t.detail)}</div>
+          </div>
+          <div class="trend-score-wrap">
+            <div class="trend-score" style="color:${scoreColor(t.score)}">${t.score.toFixed(1)}</div>
+            <div class="trend-bar"><div class="trend-bar-fill" style="width:${t.score*10}%;background:${scoreColor(t.score)}"></div></div>
+          </div>
+        </div>`).join('')}
+    </div>`:''}
+    <div style="text-align:center;padding:8px 0">
+      <button class="btn btn-ghost" onclick="nav('report',document.querySelectorAll('.nav-tab')[4])">View Full Report →</button>
+    </div>`;
+}
+
+function renderReport(data){
+  const formatted=data.report
+    .replace(/## (.+)/g,'<h2>$1</h2>')
+    .replace(/### (.+)/g,'<h3>$1</h3>')
+    .replace(/\*\*(.+?)\*\*/g,'<strong>$1</strong>')
+    .replace(/^- (.+)/gm,'<li>$1</li>')
+    .replace(/(<li>.+<\/li>\n?)+/g,m=>`<ul>${m}</ul>`);
+  document.getElementById('report-out').innerHTML=`
+    <div class="report-card">
+      <div class="report-header">
+        <div>
+          <div class="report-badge">Intelligence Report</div>
+          <div class="report-topic">${esc(data.topic)}</div>
+        </div>
+        <div class="report-dateline">Generated<br>${new Date().toUTCString().slice(0,25)}</div>
+      </div>
+      <div class="report-body">${formatted}</div>
+    </div>`;
+}
+
+async function fetchNews(){
+  const query=document.getElementById('nw-q').value.trim();
+  if(!query){showToast('Enter a topic');return;}
+  const btn=document.getElementById('nw-btn');
+  const out=document.getElementById('nw-out');
+  btn.disabled=true;btn.textContent='Fetching…';
+  out.innerHTML=`<div class="loading-wrap"><div class="loading-track"><div class="loading-fill"></div></div><div class="loading-text">Fetching from Google News…</div></div>`;
+  try{
+    const res=await fetch(cfg.url()+'/api/news',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({query,max_results:cfg.nc()*2})
+    });
+    if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error||'HTTP '+res.status);}
+    const data=await res.json();
+    if(!data.articles.length){
+      out.innerHTML=`<div class="empty"><div class="empty-headline">No results</div><div class="empty-sub">Try a different search term</div></div>`;
+    } else {
+      out.innerHTML=`<div class="news-card">${data.articles.map((a,i)=>`
+        <div class="news-feed-item">
+          <div class="nfi-num">${String(i+1).padStart(2,'0')}</div>
+          <div>
+            <div class="nfi-title">${esc(a.title)}</div>
+            ${a.summary?`<div class="nfi-summary">${esc(a.summary)}</div>`:''}
+            <div class="nfi-byline">
+              <span class="nfi-source">${esc(a.source||'News')}</span>
+              <span class="nfi-date">${esc(a.date||'recent')}</span>
+            </div>
+          </div>
+        </div>`).join('')}</div>`;
+      showToast(`${data.articles.length} articles fetched`);
+    }
+  }catch(e){
+    out.innerHTML=`<div class="empty"><div class="empty-headline">Request failed</div><div class="empty-sub">${esc(e.message)}</div></div>`;
+    showToast('Error: '+e.message);
+  }
+  btn.disabled=false;btn.textContent='Fetch';
+}
+
+function downloadReport(){
+  if(!lastReport)return;
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([lastReport],{type:'text/plain'}));
+  a.download='intelligence-report.txt';a.click();
+}
+</script>
+</body>
+</html>
