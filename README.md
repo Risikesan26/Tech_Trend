@@ -19,6 +19,8 @@ The platform exposes a REST API and a clean web dashboard. Users type a technolo
 
 ## 🏗️ System Architecture
 
+![Functional Diagram](assets/Trend_Intel.png)
+
 ### Agent-to-Agent (A2A) Flow
 
 ```
