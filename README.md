@@ -1,4 +1,4 @@
-# 🌐 Global Tech Trend Intelligence Swarm
+# 🌐 Trend Intel
 
 > A multi-agent AI system that monitors research publications and startup activity simultaneously to surface emerging technologies before they hit mainstream news.
 
