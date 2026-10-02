@@ -1213,6 +1213,12 @@ code {
 <div class="toast" id="toast"></div>
 
 <script>
+const defaultOrigin = (window.location.origin && window.location.origin.startsWith('http')) ? window.location.origin : 'http://localhost:8080';
+const urlInput = document.getElementById('cfg-url');
+if (urlInput && (!urlInput.value || urlInput.value.includes('run.app') || urlInput.value.includes('localhost'))) {
+  urlInput.value = defaultOrigin;
+}
+
 const cfg={
   url:()=>document.getElementById('cfg-url').value.replace(/\/$/,''),
   nc:()=>parseInt(document.getElementById('cfg-nc').value),
